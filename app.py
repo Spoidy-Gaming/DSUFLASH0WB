@@ -1,4 +1,7 @@
 from flask import Flask, request, jsonify, render_template
+from twilio.twiml.messaging_response import MessagingResponse
+from twilio.rest import Client
+import os
 
 app = Flask(__name__)
 
@@ -36,10 +39,18 @@ data = {
     "application_link": "https://admissions.dsuniversity.ac.in/",
     "contact": {
         "admissions_office": "1800 532 2222",
-        "support": "enquiry@dsuniversity.ac.in,
+        "support": "enquiry@dsuniversity.ac.in",
         "phone": "70944 58021,70944 58022"
     }
 }
+
+# Twilio credentials (replace with your own)
+account_sid = os.getenv('TWILIO_ACCOUNT_SID', 'your_account_sid')
+auth_token = os.getenv('TWILIO_AUTH_TOKEN', 'your_auth_token')
+twilio_number = os.getenv('TWILIO_WHATSAPP_NUMBER', 'whatsapp:+14155238886')  # Twilio Sandbox number
+
+# Initialize Twilio client
+client = Client(account_sid, auth_token)
 
 @app.route('/')
 def index():
@@ -50,6 +61,15 @@ def chat():
     query = request.form.get('query').lower()
     response = get_response(query)
     return jsonify(response)
+
+# Route to handle incoming messages from WhatsApp
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    incoming_message = request.values.get('Body', '').lower()
+    response_message = get_response(incoming_message)
+    response = MessagingResponse()
+    response.message(response_message)
+    return str(response)
 
 def get_response(query):
     if "course fees" in query:
@@ -74,20 +94,20 @@ def get_response(query):
 def get_course_fees(query):
     for course_key, course_info in data['courses'].items():
         if course_info['name'].lower() in query:
-            return {course_info['name']: course_info['fees']}
+            return f"{course_info['name']} course fees: {course_info['fees']}"
     return "Course not found."
 
 def get_course_facilities(query):
     for course_key, course_info in data['courses'].items():
         if course_info['name'].lower() in query:
-            return {course_info['name']: course_info['facilities']}
+            return f"{course_info['name']} course facilities: {course_info['facilities']}"
     return "Course not found."
 
 def get_hostel_fees(query):
-    return {room_type: info['fees'] for room_type, info in data['hostel'].items()}
+    return "Hostel fees: " + ", ".join([f"{room_type}: {info['fees']}" for room_type, info in data['hostel'].items()])
 
 def get_hostel_facilities(query):
-    return {room_type: info['facilities'] for room_type, info in data['hostel'].items()}
+    return "Hostel facilities: " + ", ".join([f"{room_type}: {info['facilities']}" for room_type, info in data['hostel'].items()])
 
 if __name__ == '__main__':
     app.run(debug=True)
