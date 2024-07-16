@@ -4,40 +4,134 @@ from twilio.rest import Client
 
 app = Flask(__name__)
 
-# Sample data for demonstration purposes
+# Updated data with courses, hostel details, and fees structure
 data = {
     "courses": {
         "computer_science": {
             "name": "Computer Science",
-            "fees": "1,12,500",
+            "fees": "130,000 - 200,000",
             "facilities": "Lab access, Online resources"
         },
-        "mechanical_engineering": {
-            "name": "Mechanical Engineering",
-            "fees": "50,000",
-            "facilities": "Workshops, Lab access"
-        },
-        "business_administration": {
-            "name": "Business Administration",
-            "fees": "85,000",
-            "facilities": "Library access, Case studies"
-        },
-        "civil_engineering": {
-            "name": "Civil Engineering",
-            "fees": "75,000",
-            "facilities": "Construction labs, Field trips"
-        },
-        "electronics_communication": {
-            "name": "Electronics and Communication Engineering",
-            "fees": "90,000",
-            "facilities": "Labs, Research projects"
+        "artificial_intelligence_data_science": {
+            "name": "Artificial Intelligence and Data Science",
+            "fees": "130,000 - 200,000",
+            "facilities": "AI labs, Research projects"
         },
         "information_technology": {
             "name": "Information Technology",
-            "fees": "1,00,000",
+            "fees": "130,000 - 200,000",
             "facilities": "IT labs, Software development resources"
+        },
+        "cyber_security": {
+            "name": "Computer Science and Engineering with Cyber Security",
+            "fees": "130,000 - 200,000",
+            "facilities": "Cybersecurity labs, Research projects"
+        },
+        "ai_ml": {
+            "name": "Artificial Intelligence and Machine Learning",
+            "fees": "130,000 - 200,000",
+            "facilities": "AI labs, Research projects"
+        },
+        "iot": {
+            "name": "Computer Science Engineering with IoT",
+            "fees": "100,000",
+            "facilities": "IoT labs, Research projects"
+        },
+        "electronics_communication": {
+            "name": "Electronics and Communication Engineering",
+            "fees": "100,000",
+            "facilities": "ECE labs, Research projects"
+        },
+        "agricultural_engineering": {
+            "name": "Agricultural Engineering",
+            "fees": "100,000",
+            "facilities": "Agricultural labs, Field research"
+        },
+        "biomedical_engineering": {
+            "name": "Biomedical Engineering",
+            "fees": "100,000",
+            "facilities": "Biomedical labs, Research projects"
+        },
+        "biotechnology": {
+            "name": "Biotechnology",
+            "fees": "100,000",
+            "facilities": "Biotech labs, Research projects"
+        },
+        "electrical_electronics_engineering": {
+            "name": "Electrical and Electronics Engineering",
+            "fees": "100,000",
+            "facilities": "EEE labs, Research projects"
+        },
+        "mechanical_engineering": {
+            "name": "Mechanical Engineering",
+            "fees": "100,000",
+            "facilities": "Mechanical labs, Research projects"
+        },
+        "dialysis_technology": {
+            "name": "Dialysis Technology",
+            "fees": "125,000",
+            "facilities": "Dialysis labs, Internship"
+        },
+        "optometry": {
+            "name": "Optometry",
+            "fees": "125,000",
+            "facilities": "Optometry labs, Internship"
+        },
+        "physician_assistant": {
+            "name": "Physician Assistant",
+            "fees": "150,000",
+            "facilities": "PA labs, Internship"
+        },
+        "radiography_imaging_technology": {
+            "name": "Radiography and Imaging Technology",
+            "fees": "150,000",
+            "facilities": "Radiography labs, Internship"
+        },
+        "cardio_pulmonary_perfusion_technology": {
+            "name": "Cardio Pulmonary and Perfusion Technology",
+            "fees": "175,000",
+            "facilities": "CPPT labs, Internship"
+        },
+        "operation_theatre_anesthesia_technology": {
+            "name": "Operation Theatre and Anesthesia Technology",
+            "fees": "200,000",
+            "facilities": "OTAT labs, Internship"
+        },
+        "cardio_vascular_technology": {
+            "name": "Cardio Vascular Technology",
+            "fees": "200,000",
+            "facilities": "CVT labs, Internship"
+        },
+        "medical_laboratory_technology": {
+            "name": "Medical Laboratory Technology",
+            "fees": "125,000",
+            "facilities": "MLT labs, Internship"
+        },
+        "critical_care_technology": {
+            "name": "Critical Care Technology",
+            "fees": "100,000",
+            "facilities": "CCT labs, Internship"
+        },
+        "accident_emergency_care_technology": {
+            "name": "Accident and Emergency Care Technology",
+            "fees": "100,000",
+            "facilities": "AECT labs, Internship"
+        },
+        "agriculture_honors": {
+            "name": "Agriculture (Honors)",
+            "fees": "175,000",
+            "facilities": "Agriculture labs, Field research"
+        },
+        "physiotherapy": {
+            "name": "Bachelor of Physiotherapy",
+            "fees": "125,000",
+            "facilities": "Physiotherapy labs, Internship"
+        },
+        "pharmacy": {
+            "name": "Bachelor of Pharmacy",
+            "fees": "175,000",
+            "facilities": "Pharmacy labs, Internship"
         }
-        # Add more courses as per the university's offerings
     },
     "hostel": {
         "single_room": {
@@ -45,8 +139,12 @@ data = {
             "facilities": "Single bed, Study table, Wi-Fi, Common Bathroom"
         },
         "double_room": {
-            "fees": "1,25,000",
-            "facilities": "Two beds, Study tables, A/c, Wi-Fi, Attached Bathroom"
+            "fees": "125,000",
+            "facilities": "Two beds, Study tables, A/C, Wi-Fi, Attached Bathroom"
+        },
+        "triple_room": {
+            "fees": "75,000",
+            "facilities": "Three beds, Study tables, Common Bathroom"
         }
     },
     "infrastructure": "Our college has state-of-the-art labs, libraries, sports facilities, and more.",
@@ -59,8 +157,8 @@ data = {
     }
 }
 
-# Twilio credentials
-account_sid = 'your_account_sid'
+# Twilio credentials (replace with your own)
+account_sid = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 auth_token = 'your_auth_token'
 twilio_client = Client(account_sid, auth_token)
 
