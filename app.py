@@ -6,8 +6,8 @@ from twilio.rest import Client
 app = Flask(__name__)
 
 # Twilio credentials (replace with your own)
-account_sid = 'your_account_sid'
-auth_token = 'your_auth_token'
+account_sid = 'ACd99b87f144e524f1f3f85c00b7a3aa9a'
+auth_token = '075cd9dd1401bd906fb8455dcbd44a19'
 twilio_phone_number = 'whatsapp:+14155238886'  # Replace with your Twilio number
 twilio_client = Client(account_sid, auth_token)
 
@@ -112,7 +112,7 @@ def send_whatsapp_message(phone_number, message_body):
     message = twilio_client.messages.create(
         body=message_body,
         from_=twilio_phone_number,  # Use your Twilio WhatsApp-enabled number
-        to=f'whatsapp:{phone_number}'
+        to=f'whatsapp:+919489437200'
     )
     return message.sid
 
