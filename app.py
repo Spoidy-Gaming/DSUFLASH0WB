@@ -8,6 +8,7 @@ app = Flask(__name__)
 # Twilio credentials (replace with your own)
 account_sid = 'your_account_sid'
 auth_token = 'your_auth_token'
+twilio_phone_number = 'whatsapp:+14155238886'  # Replace with your Twilio number
 twilio_client = Client(account_sid, auth_token)
 
 def query_db(query, args=(), one=False):
@@ -27,6 +28,16 @@ def chat():
     query = request.form.get('query').lower()
     response = get_response(query)
     return jsonify(response)
+
+@app.route('/send_whatsapp', methods=['POST'])
+def send_whatsapp():
+    phone_number = request.form.get('phone_number')
+    message_body = request.form.get('message')
+    try:
+        message_sid = send_whatsapp_message(phone_number, message_body)
+        return jsonify({"status": "Message sent", "sid": message_sid})
+    except Exception as e:
+        return jsonify({"status": "Failed to send message", "error": str(e)})
 
 def get_response(query):
     if re.search(r'\bcourse\b|\bprogram\b|\bsubject\b|\bmajor\b|\bdiscipline\b', query):
@@ -96,6 +107,14 @@ def get_application_link():
 def get_contact():
     contact = query_db("SELECT admissions_office, support, phone FROM info", one=True)
     return {"contact": {"admissions_office": contact[0], "support": contact[1], "phone": contact[2]}}
+
+def send_whatsapp_message(phone_number, message_body):
+    message = twilio_client.messages.create(
+        body=message_body,
+        from_=twilio_phone_number,  # Use your Twilio WhatsApp-enabled number
+        to=f'whatsapp:{phone_number}'
+    )
+    return message.sid
 
 if __name__ == '__main__':
     app.run(debug=True)
