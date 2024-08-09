@@ -1,14 +1,13 @@
 from flask import Flask, request, jsonify, render_template
-import re
 import sqlite3
 from twilio.rest import Client
 
-app = Flask(__name__)
+app = Flask(_name_)
 
 # Twilio credentials (replace with your own)
 account_sid = 'ACd99b87f144e524f1f3f85c00b7a3aa9a'
 auth_token = '075cd9dd1401bd906fb8455dcbd44a19'
-twilio_phone_number = 'whatsapp:+14155238886'  # Replace with your Twilio number
+twilio_phone_number = 'whatsapp:+14155238886'
 twilio_client = Client(account_sid, auth_token)
 
 def connect_db():
@@ -21,7 +20,9 @@ def index():
 @app.route('/chat', methods=['POST'])
 def chat():
     query = request.form.get('query').lower()
+    print(f"Received query: {query}")  # Debugging line
     response = respond_to_query(query)
+    print(f"Generated response: {response}")  # Debugging line
     return jsonify({"response": response})
 
 @app.route('/send_whatsapp', methods=['POST'])
@@ -45,7 +46,7 @@ def respond_to_query(query):
         course_list = ', '.join([course[0] for course in courses])
         return f"DSU offers the following courses: {course_list}"
 
-    elif query in ["hostel fee", "hostel"]:
+    elif query in ["hostel fee", "hostel fees"]:
         cursor.execute("SELECT hostel_name, fee FROM hostel")
         hostels = cursor.fetchall()
         return ', '.join([f"{hostel[0]}: {hostel[1]}" for hostel in hostels])
@@ -75,7 +76,6 @@ def respond_to_query(query):
         buildings = cursor.fetchall()
         return ', '.join([f"{building[0]}: {building[1]}" for building in buildings])
 
-    # Additional queries for course facilities, hostel facilities, map link, and specific building images
     elif 'course facility' in query:
         course_name = query.replace('course facility', '').strip()
         cursor.execute("SELECT facility FROM course_facilities WHERE LOWER(course_name) = ?", (course_name.lower(),))
@@ -123,10 +123,10 @@ def respond_to_query(query):
 def send_whatsapp_message(phone_number, message_body):
     message = twilio_client.messages.create(
         body=message_body,
-        from_=twilio_phone_number,  # Use your Twilio WhatsApp-enabled number
+        from_=twilio_phone_number,
         to=f'whatsapp:{phone_number}'
     )
     return message.sid
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     app.run(debug=True)
