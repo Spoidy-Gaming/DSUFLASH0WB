@@ -93,19 +93,19 @@
     "building_images": [
         {
             "building_name": "Academic Block",
-            "image_link": "link_to_academic_block_image"
+            "image_link": "static/images/academic_block.jpeg"
         },
         {
             "building_name": "Hospital Block",
-            "image_link": "link_to_hospital_block_image"
+            "image_link": "static/images/hospital_block.jpeg"
         },
         {
             "building_name": "Hostel Block",
-            "image_link": "link_to_hostel_block_image"
+            "image_link": "static/images/hostel_block.jpeg"
         },
         {
             "building_name": "Engineering Block",
-            "image_link": "link_to_engineering_block_image"
+            "image_link": "static/images/engineering_block.jpeg"
         }
     ],
     "map": {
