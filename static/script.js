@@ -7,7 +7,12 @@ $(document).ready(function() {
             type: 'POST',
             data: { query: query },
             success: function(response) {
-                $('#response').html('<pre>' + JSON.stringify(response, null, 2) + '</pre>');
+                // Access the 'response' field of the JSON object and display it
+                $('#response').html('<pre>' + response.response + '</pre>');
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                $('#response').html('<pre>Error: ' + error + '</pre>');
             }
         });
     });
